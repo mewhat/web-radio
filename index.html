@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>web-audio</title>
+	<link rel="stylesheet" href="css/index.css">
+	<link rel="stylesheet" href="css/reset.css">
+</head>
+<body>
+
+<div id="container">
+	<div id="song-list"></div>
+	<div id="song-lrc"></div>
+	<div id="audio">
+		<audio id="audio" controls>
+        	<source src="http://mp3.9ku.com/m4a/186947.m4a" type="audio/mpeg">
+    	</audio>
+    	<button id="play">播放</button>
+		<button id="stop">暂停</button>
+		<input id="volume" type="range" min="0" max="100" value="50" />
+        <input id="process" type="range" min="0" max="100" value="0" />
+        <span id="current-time"></span>/
+        <span id="total-time"></span>
+	</div>
+</div>
+<script src="js/verdor/doT.min.js"></script>
+<script src="js/reset.js"></script>
+<script src="js/common.js"></script>
+	<script id="songListTmpl" type="text/template">
+        {{ for(var prop in it) { }}
+        <li class="item {{=it[prop].active}}" data-song-link="{{=it[prop].url}}" data-song-lrc="{{=it[prop].lrcLink}}">{{=it[prop].name}}</li>
+        {{ } }}
+    </script>
+<script src="js/song-list.js"></script>
+<script src="js/song-service.js"></script>
+<script src="js/song-cache.js"></script>
+<script src="js/data-render.js"></script>
+<script src="js/index.js"></script>
+</body>
+</html>
