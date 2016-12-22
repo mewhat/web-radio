@@ -73,6 +73,10 @@
 	left: 133px;
 	z-index: 5;
 	background-image: url(../img/needle-ip6.png);
+	/*
+	transform-origin: top;
+	transform: rotate(-40deg);
+	*/
 	background-size: 96px auto;
 }
 
@@ -101,10 +105,8 @@
 }
 
 .pause {
-	/*
 	-webkit-animation-play-state: paused;
     animation-play-state: paused;
-    */
 }
 
 @-webkit-keyframes truning{
@@ -178,32 +180,30 @@
 	line-height: 38px;
 }
 
-.control .volume {
+.control #bar {
 	position: relative;
-	padding: 4px 0;
 	top: 7px;
 	width: 200px;
 	height: 4px;
 	margin: 0 auto;
+	background: rgba(255,255,255,0.6);
+	border-radius: 4px;
 }
 
-.control .volume .volume-many {
-	height: 200px;
-	width: 4px;
+.control #bar #volume-many {
+	width: 200px;
+	height: 4px;
 	position: absolute;
-	left: 50%;
-	top: -94px;
-	background: url(../img/playbar.png) no-repeat;
+	background: url(../img/bar.png) no-repeat;
 	background-size: 100% 100%;
-	transform: rotate(-90deg);
 }
 
-.control .volume span {
+.control #bar span {
 	position: absolute;
 	width: 12px;
 	height: 12px;
 	left: 50%;
-	top: -1px;
+	top: -4px;
 	background: url(../img/bar-cover.png) no-repeat;
 }
 
