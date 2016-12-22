@@ -1,3 +1,4 @@
+//格式化时间
 function formatTime(seconds) {
 	minutes = Math.floor(seconds / 60);
 	minutes = (minutes >= 10) ? minutes : "0" + minutes;

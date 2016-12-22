@@ -6,16 +6,22 @@
 
     init();
 
+    /**
+    不使用doT，直接操作DOM完成项目
+    */
+
     function init() {
         songCacheService.audioArr = [obj.audio];
         var songListDom = getElement('#song-list');
 
         // event handler
+
         getElement('#play').onclick = audioPlay;
         getElement('#stop').onclick = audioPause;
         getElement('#volume').oninput = audioVolume;
         getElement('#process').oninput = audioProcess;
-        songListDom.innerHTML = songListItemDom;
+        
+        songListDom.innerHTML = renderView.getSongListDom(songList);
         songListDom.addEventListener('click', songListSelect);
     }
 
@@ -35,7 +41,6 @@
                 }
                 getElement('#song-lrc').innerText = '';
             }
-
         }
     }
 
@@ -48,7 +53,7 @@
 
         function success(result) {
             songCacheService.lrcArr[index] = result;
-            getElement('#song-lrc').innerText = result.replace(/\[.+?\]/g, '');
+            getElement('#song-lrc').innerHTML = renderView.getLrcListDom(result.split(/\n/));
         }
 
         function error() {
@@ -57,12 +62,18 @@
     }
 
     function audioPause() {
+        getElement('#play').style.display = "block";
+        getElement('#stop').style.display = "none";
         if (!isAudioPaused(obj.audio)) {
             obj.audio.pause();
         }
     }
 
     function audioPlay() {
+        getElement('#play').style.display = "none";
+        getElement('#stop').style.display = "block";
+        //getElement('#play').style = "background-top-position: -168px";
+        //getElement('#play').style.backgroundPosition = "0 -145px";
         obj.audio.volume = getElement('#volume').value / 100;
         if (isAudioPaused(obj.audio)) {
             var itemsDom = getElements('#song-list .item');
