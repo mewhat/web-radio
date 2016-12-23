@@ -25,7 +25,7 @@
 		return tempFn(data);
 	}
 
-
+	
 	function getLrcListDom(data) {
 		var arr = [];
 		data.map(function(elem) {
@@ -36,7 +36,7 @@
 				time: RegExp.$1,
 				name: elem.replace(/\[.+?\]/g,'')
 			})
-		})
+		});
 		tempFn = doT.template(getElement('#lrcListTmpl').innerText);
 		return tempFn(arr);
 	}

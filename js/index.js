@@ -1,10 +1,13 @@
 (function() {
     var obj = {
-        audio: new Audio(songList[0].url)
+        audio: new Audio(songList[0].url),
+        
     }
     var init = init;
+    window.res = [];
 
     init();
+
 
     /**
     不使用doT，直接操作DOM完成项目
@@ -19,8 +22,12 @@
         getElement('.img').style = "animation-play-state: paused;";
         getElement('#play').onclick = audioPlay;
         getElement('#stop').onclick = audioPause;
+
         songListDom.innerHTML = renderView.getSongListDom(songList);
         songListDom.addEventListener('click', songListSelect);
+
+
+
     }
 
     function songListSelect(e) {
@@ -42,11 +49,13 @@
         }
     }
 
+
     /**
     网易云音乐api分析：http://moonlib.com/606.html
     audio对象api：http://www.runoob.com/jsref/dom-obj-audio.html
     */
     function getLrc(songLink, index) {
+        var arr = [];
         if (typeof songCacheService.lrcArr[index] !== 'string') {
             songService.getLrc(songLink, success, error);
         } else {
@@ -55,11 +64,15 @@
 
         function success(result) {
             songCacheService.lrcArr[index] = result;
+            res = result.split(/\n/).slice();
+            console.log(res);
+            //console.log(result);
+            //提取fetch返回的歌词，并切割得到每一行[00:00.00]string，然后通过getLrcListDom处理
             getElement('#song-lrc').innerHTML = renderView.getLrcListDom(result.split(/\n/));
         }
 
         function error() {
-
+            console.log('no lrc');
         }
     }
 
@@ -78,7 +91,7 @@
         getElement('#play').style.display = "none";
         getElement('#stop').style.display = "block";
         getElement('.img').style = "";
-        obj.audio.volume = getElement('#volume').value / 100;
+        //obj.audio.volume = getElement('#volume').value / 100;
         if (isAudioPaused(obj.audio)) {
             var itemsDom = getElements('#song-list .item');
             for (var i = 0, len = itemsDom.length; i < len; i++) {
@@ -87,21 +100,57 @@
                 }
             }
             obj.audio.play();
-
         }
+        console.log(res);
+        var lrcObj = [];
+        var array = [];
+        res.map(function(elem) {
+            elem.match(/\[(.+?)\]/);
+            lrcObj.push({
+                time: RegExp.$1,
+                name: elem.replace(/\[.+?\]/g,'')
+            })
+        });
+
+        for (var i = 0; i < lrcObj.length; i++) {
+            var t = lrcObj[i];
+            var min = Number(String(t.time.match(/\[\d*/i)).slice(1));
+            var seconds = Number(String(t.time.match(/\:\d*/i)).slice(1));
+            var time = min * 60 + seconds;
+            array[time] = t.name;
+        }
+        obj.audio.addEventListener('timeupdate', updateLrc);
+        function updateLrc() {
+            console.log(obj.audio.currentTime);
+            var lrc_list = getElement('#song-lrc');
+            var li = lrc_list.getElementsByTagName('li');
+            var len = li.length;
+            var i = 0;
+            var current = Math.round(obj.audio.currentTime);
+            var lrc = array[current];
+            //取到歌词为止
+            if (!lrc) {
+                return;
+            } else {
+                lrc_list.style.top += -len*i + 'px';
+                li[i++].style.color = "#fff";
+            }
+        }
+        //console.log(obj.audio.duration);
         showTotalTime(obj.audio.duration);
         showCurrentTime(0);
 
+        //console.log(LrcList);
 
         //清除定时器
         var time = setInterval(function() {
             showCurrentTime(obj.audio.currentTime);
             chanceProcess();
+
             if (obj.audio.ended) {
                 getElement('.img').style = "animation-play-state: paused;";
                 getElement('#play').style.display = "block";
                 getElement('#stop').style.display = "none";
-                //console.log('end');
             };
         },1000);
     }
@@ -127,6 +176,7 @@
     function isAudioPaused(audioObj) {
         return audioObj.paused;
     }
+
 
     var ScrollBar = function(btn, bar) {
         this.btn = document.getElementById(btn);
@@ -218,4 +268,5 @@
         }
     }
     new VolumeBar('volume-btn', 'volume-bar');
-})();
+
+})(window);

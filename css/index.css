@@ -168,9 +168,17 @@
 	margin-top: 25px;
 }
 
-.m-song #song-lrc {
+.m-song #lrc {
 	margin-top: 20px;
 	font-size: 14px;
+	height: 88px; 
+	overflow: hidden;
+}
+
+.m-song #lrc #song-lrc {
+	position: relative;
+	top: 0px;
+	line-height: 1.5;
 }
 
 .control {

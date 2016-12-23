@@ -35,3 +35,33 @@ function getElements(selector) {
     return selectors;
 }
 
+/*
+var xmlhttp;
+function loadLrc(url) {
+    xmlhttp = null;
+    if (window.XMLHttpRequest) {
+        xmlhttp = new XMLHttpRequest();
+    } else if (window.ActiveXObject) {
+        xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+    }
+    if (xmlhttp !== null) {
+        xmlhttp.onreadystatechange = getLrc;
+        xmlhttp.open('GET',url,true);
+        xmlhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
+        xmlhttp.send(null);
+    } else {
+        console.log('error ajax');
+    }
+}
+
+function getLrc() {
+    if (xmlhttp.readyState == 4) {
+        if (xmlhttp.status == 200) {
+            var Lrc = xmlhttp.responseText;
+            console.log(Lrc);
+        };
+    };
+}
+
+loadLrc('http://music.163.com/api/song/lyric?os=pc&id=93920&lv=-1&kv=-1&tv=-1');
+*/
