@@ -64,15 +64,13 @@
 
         function success(result) {
             songCacheService.lrcArr[index] = result;
-            res = result.split(/\n/).slice();
-            console.log(res);
-            //console.log(result);
+            //res = result.split(/\n/).slice();
             //提取fetch返回的歌词，并切割得到每一行[00:00.00]string，然后通过getLrcListDom处理
             getElement('#song-lrc').innerHTML = renderView.getLrcListDom(result.split(/\n/));
         }
 
         function error() {
-            console.log('no lrc');
+            //console.log('no lrc');
         }
     }
 
@@ -96,38 +94,52 @@
             var itemsDom = getElements('#song-list .item');
             for (var i = 0, len = itemsDom.length; i < len; i++) {
                 if (getElement('.active') === itemsDom[i]) {
+                    //?
                     getLrc(getElement('.active').getAttribute('data-song-lrc'), i);
                 }
             }
             obj.audio.play();
         }
-        console.log(res);
-        var lrcObj = [];
-        var array = [];
-        res.map(function(elem) {
-            elem.match(/\[(.+?)\]/);
-            lrcObj.push({
-                time: RegExp.$1,
-                name: elem.replace(/\[.+?\]/g,'')
-            })
-        });
 
-        for (var i = 0; i < lrcObj.length; i++) {
-            var t = lrcObj[i];
-            var min = Number(String(t.time.match(/\[\d*/i)).slice(1));
-            var seconds = Number(String(t.time.match(/\:\d*/i)).slice(1));
-            var time = min * 60 + seconds;
-            array[time] = t.name;
+        songService.getLrc(songList[0].lrcLink, update, function() {});
+
+        function update(data) {
+            var lrcObj = [];
+            var array = [];
+            data.split(/\n/).map(function(elem) {
+                elem.match(/\[(.+?)\]/);
+                lrcObj.push({
+                    time: RegExp.$1,
+                    name: elem.replace(/\[.+?\]/g,'')
+                });
+            });
+
+            for (var i = 0; i < lrcObj.length; i++) {
+                var t = lrcObj[i];
+                var min = parseFloat(t.time.split(':')[0]);
+                var seconds = parseFloat(t.time.split(':')[1]);
+                console.log(seconds);
+                var time = min * 60 + seconds;
+                time = time.toFixed(2);
+                console.log(time);
+                array.push({time: Math.round(time),name: t.name});
+            }
+            console.log(array);
+
         }
+
+        
+
         obj.audio.addEventListener('timeupdate', updateLrc);
-        function updateLrc() {
-            console.log(obj.audio.currentTime);
+        function updateLrc(data) {
+
+            //////////////////console.log(obj.audio.currentTime);
             var lrc_list = getElement('#song-lrc');
             var li = lrc_list.getElementsByTagName('li');
             var len = li.length;
             var i = 0;
             var current = Math.round(obj.audio.currentTime);
-            var lrc = array[current];
+            //var lrc = array[current];
             //取到歌词为止
             if (!lrc) {
                 return;
