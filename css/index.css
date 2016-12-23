@@ -202,11 +202,54 @@
 	position: absolute;
 	width: 12px;
 	height: 12px;
+	left: 0px;
+	top: -4px;
+	background: url(../img/bar-cover.png) no-repeat;
+}
+
+
+.control #volume-bar {
+	position: relative;
+	top: 7px;
+	width: 200px;
+	height: 4px;
+	margin: 0 auto;
+	background: rgba(255,255,255,0.6);
+	border-radius: 4px;
+}
+
+.control #volume-bar #many {
+	width: 200px;
+	height: 4px;
+	position: absolute;
+	background: url(../img/bar.png) no-repeat;
+	background-size: 100% 100%;
+}
+
+.control #volume-bar span {
+	position: absolute;
+	width: 12px;
+	height: 12px;
 	left: 50%;
 	top: -4px;
 	background: url(../img/bar-cover.png) no-repeat;
 }
 
+.control #current-time, .control #total-time {
+	position: absolute;
+	color: rgba(255,255,255,0.6);
+	font-size: 14px;
+}
+
+.control #current-time {
+	top: -10px;
+	left: 30px;
+}
+
+.control #total-time {
+	top: -10px;
+	right: 30px;
+}
 
 /*
 .bottom-btn .btn:before {

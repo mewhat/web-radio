@@ -12,8 +12,6 @@
 
 <div id="container">
     <div class="bg"></div>
-    
-    
     <div class="wap">
         <div class="disc">
             <div class="turn">
@@ -28,34 +26,35 @@
             <audio id="audio">
                 <source src="http://mp3.9ku.com/m4a/186947.m4a" type="audio/mpeg">
             </audio>
-            
         </div>
-        
+
         <div class="m-song">
             <h2 id="song-head"></h2>
-            <div id="song-lrc" style="height: 88px; overflow: hidden;">
-                
-            </div>
+            <div id="song-lrc" style="height: 88px; overflow: hidden;"></div>
         </div>
-
-        <div class="control">
-            <span id="current-time"></span>
+        
+        <div class="control" style="display: none;">
             <input id="process" type="range" min="0" max="100" value="0" />
-            <span id="total-time"></span><br>
-
             <input id="volume" type="range" min="0" max="100" value="50" />
         </div>
-
+        
         <div class="control">
+            <span id="current-time"></span>
             <div id="bar">
                 <div id="volume-many"></div>
                 <span id="btn"></span>
             </div>
+            <span id="total-time"></span><br>
         </div>
-    
+        <div class="control">
+            <div id="volume-bar">
+                <div id="many"></div>
+                <span id="volume-btn"></span>
+            </div>
+        </div>     
     </div>
     <!--隐藏歌单，或者放在侧面-->
-    <div id="song-list"></div>
+    <div id="song-list" style="display: none;"></div>
 	<div class="bottom-btn">
         <div href="#" class="btn">
             <em>
