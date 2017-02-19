@@ -18,4 +18,3 @@
 
     window.songService = songService;
 })(window);
-

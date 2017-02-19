@@ -67,6 +67,7 @@
             //res = result.split(/\n/).slice();
             //提取fetch返回的歌词，并切割得到每一行[00:00.00]string，然后通过getLrcListDom处理
             getElement('#song-lrc').innerHTML = renderView.getLrcListDom(result.split(/\n/));
+
         }
 
         function error() {
@@ -94,7 +95,6 @@
             var itemsDom = getElements('#song-list .item');
             for (var i = 0, len = itemsDom.length; i < len; i++) {
                 if (getElement('.active') === itemsDom[i]) {
-                    //?
                     getLrc(getElement('.active').getAttribute('data-song-lrc'), i);
                 }
             }
@@ -104,8 +104,11 @@
         songService.getLrc(songList[0].lrcLink, update, function() {});
 
         function update(data) {
+            //模板已经获取歌词并返回了数据到DOM中，所有直接操作DOM就可以了
             var lrcObj = [];
-            var array = [];
+            var arrayTime = [];
+            var arrayLrc = [];
+            //
             data.split(/\n/).map(function(elem) {
                 elem.match(/\[(.+?)\]/);
                 lrcObj.push({
@@ -118,35 +121,73 @@
                 var t = lrcObj[i];
                 var min = parseFloat(t.time.split(':')[0]);
                 var seconds = parseFloat(t.time.split(':')[1]);
-                console.log(seconds);
+                //console.log(seconds);
                 var time = min * 60 + seconds;
-                time = time.toFixed(2);
+                //time = time.toFixed(2);
                 console.log(time);
-                array.push({time: Math.round(time),name: t.name});
+                //array.push({time: Math.round(time),name: t.name});
+                arrayTime.push(time);
+                arrayLrc.push(t.name);
+                console.log(arrayLrc);
             }
-            console.log(array);
 
+            /*
+            //obj.audio.addEventListener('timeupdate', updateLrc(arrayTime));
+            var j = 0;
+            obj.audio.addEventListener('timeupdate', function(arrayTime) {
+                //console.log(obj.audio.currentTime);
+                var lrc_list = getElement('#song-lrc');
+                var li = lrc_list.getElementsByTagName('li');
+                var len = li.length;
+                var current = obj.audio.currentTime.toFixed(2);
+                console.log(current);
+
+                while(j<arrayTime.length) {
+                    if (arrayTime[j].toFixed(2) <= current) {
+                        lrc_list.style.top += -24 + 'px';
+                        break;
+                    } else {
+                        console.log('no');
+                    }
+                    j++;
+                }
+            });
+            */
+            //var timer  = null;
+            for(var i = 0; i < arrayTime.length; i++) {
+                //(function() {
+                    setTimeout(function() {
+                        var lrc_list = getElement('#song-lrc');
+                        var current = obj.audio.currentTime;
+                        //console.log(current);
+
+                        lrc_list.style.top = parseInt(lrc_list.style.top) - 32 + 'px';
+                        console.log(lrc_list.style.top);
+
+                    }, arrayTime[i] * 1000);
+                //})();
+                
+            }
+            
         }
-
         
+        function updateLrc(dataTime) {
 
-        obj.audio.addEventListener('timeupdate', updateLrc);
-        function updateLrc(data) {
-
-            //////////////////console.log(obj.audio.currentTime);
             var lrc_list = getElement('#song-lrc');
             var li = lrc_list.getElementsByTagName('li');
             var len = li.length;
-            var i = 0;
-            var current = Math.round(obj.audio.currentTime);
-            //var lrc = array[current];
-            //取到歌词为止
-            if (!lrc) {
-                return;
-            } else {
-                lrc_list.style.top += -len*i + 'px';
-                li[i++].style.color = "#fff";
+            var current = obj.audio.currentTime;
+            console.log(current);
+            
+            for (i=0;i<dataTime.length;i++) {
+                if (dataTime[i].toFixed(2) == current.toFixed(2)) {
+                    lrc_list.style.top += -len*i + 'px';
+                }
             }
+
+            if (!(current in dataTime)) {
+                
+            };            
         }
         //console.log(obj.audio.duration);
         showTotalTime(obj.audio.duration);

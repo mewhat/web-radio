@@ -1,6 +1,6 @@
 //歌单对象数组
 var songList = [{
-	name: '半岛铁盒',
-	url: 'http://yinyueshiting.baidu.com/data2/music/241199568/813234237600128.mp3?xcode=340b1b7cb66ad31737ff48ca31f559c2',
-	lrcLink: 'http://musicdata.baidu.com/data2/lrc/13854358/13854358.lrc?_=1482151995961'
+	name: '钟无艳',
+	url: 'http://ip.h5.ra03.sycdn.kuwo.cn/ac20051453913e2b1794cc4e7706ed00/58a95fbb/resource/a1/48/53/58/4216798403.aac',
+	lrcLink: 'http://musicdata.baidu.com/data2/lrc/240463521/240463521.lrc'
 }];
