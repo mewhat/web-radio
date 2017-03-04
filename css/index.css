@@ -24,23 +24,35 @@
 
 .bottom-btn {
 	position: fixed;
-	left: 0;
 	right: 0;
 	bottom: 20px;
 	height: auto;
-	width: 100%;
+	width: 50%;
 	text-align: center;
 }
 
 .bottom-btn .btn {
 	position: relative;
-	display: block;
+	display: inline-block;
 	height: 40px;
-	width: 300px;
+	width: 80%;
 	margin: 0 auto;
 	background: #d33a31;
 	border-radius: 20px;
 	line-height: 40px;
+}
+
+#song-list {
+	width: 50%;
+	position: absolute;
+	left: 0;
+	bottom: 20px;
+	text-align: center;
+}
+#song-list li {
+	display: inline-block;
+	padding: 3px;
+	margin-left: 3px;
 }
 
 .disc {
@@ -178,7 +190,12 @@
 .m-song #lrc #song-lrc {
 	position: relative;
 	top: 0px;
-	line-height: 2;
+	/*line-height: 2;*/
+}
+
+.m-song #lrc #song-lrc li {
+	content: " ";
+	height: 32px;
 }
 
 .control {
@@ -251,12 +268,12 @@
 
 .control #current-time {
 	top: -10px;
-	left: 30px;
+	left: 18px;
 }
 
 .control #total-time {
 	top: -10px;
-	right: 30px;
+	right: 18px;
 }
 
 /*
@@ -271,6 +288,3 @@
 	background: url(../img/bar_2x.png) no-repeat;
 	background-size: 125px;
 }*/
-
-
-

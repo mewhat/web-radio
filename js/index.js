@@ -4,6 +4,7 @@
         
     }
     var init = init;
+    var timer = null;
     window.res = [];
 
     init();
@@ -17,19 +18,15 @@
         songCacheService.audioArr = [obj.audio];
         var songListDom = getElement('#song-list');
 
-        // event handler
-
         getElement('.img').style = "animation-play-state: paused;";
         getElement('#play').onclick = audioPlay;
         getElement('#stop').onclick = audioPause;
 
         songListDom.innerHTML = renderView.getSongListDom(songList);
         songListDom.addEventListener('click', songListSelect);
-
-
-
     }
 
+    
     function songListSelect(e) {
         if (e.target && e.target.className.indexOf('item') !== -1) {
             var itemsDom = getElements('#song-list .item');
@@ -45,9 +42,12 @@
                     obj.audio = songCacheService.audioArr[i];
                 }
                 getElement('#song-lrc').innerText = '';
+                getElement('#song-lrc').style.top = '0px';
+                timer = null;
             }
         }
     }
+    
 
 
     /**
@@ -83,6 +83,7 @@
         //window.getComputedStyle(getElement('.disc'),':after').setProperty('', );
         if (!isAudioPaused(obj.audio)) {
             obj.audio.pause();
+            timer = null;
         }
     }
 
@@ -127,8 +128,8 @@
                 console.log(time);
                 //array.push({time: Math.round(time),name: t.name});
                 arrayTime.push(time);
-                arrayLrc.push(t.name);
-                console.log(arrayLrc);
+                //arrayLrc.push(t.name);
+                //console.log(arrayLrc);
             }
 
             /*
@@ -155,22 +156,17 @@
             */
             //var timer  = null;
             for(var i = 0; i < arrayTime.length; i++) {
-                //(function() {
-                    setTimeout(function() {
-                        var lrc_list = getElement('#song-lrc');
-                        var current = obj.audio.currentTime;
-                        //console.log(current);
+                timer = setTimeout(function() {
+                    var lrc_list = getElement('#song-lrc');
+                    var current = obj.audio.currentTime;
 
-                        lrc_list.style.top = parseInt(lrc_list.style.top) - 32 + 'px';
-                        console.log(lrc_list.style.top);
+                    lrc_list.style.top = parseInt(lrc_list.style.top) - 32 + 'px';
+                    console.log(lrc_list.style.top);
 
-                    }, arrayTime[i] * 1000);
-                //})();
-                
+                }, arrayTime[i] * 1000);
             }
-            
         }
-        
+        /*
         function updateLrc(dataTime) {
 
             var lrc_list = getElement('#song-lrc');
@@ -188,7 +184,7 @@
             if (!(current in dataTime)) {
                 
             };            
-        }
+        }*/
         //console.log(obj.audio.duration);
         showTotalTime(obj.audio.duration);
         showCurrentTime(0);
